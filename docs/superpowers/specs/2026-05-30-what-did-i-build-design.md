@@ -1,6 +1,7 @@
 # "What Did I Build?" — Design Spec
 **Date:** 2026-05-30
 **Status:** Approved
+**Domain:** whatdidibuild.app (registered on Porkbun)
 
 ---
 
