@@ -19,12 +19,14 @@ A single-page web app that takes a GitHub repo URL or pasted code and generates 
 | Components | shadcn/ui |
 | AI | Anthropic SDK (Claude) |
 | GitHub data | Octokit (GitHub REST API) |
+| Email delivery | Resend (free tier) |
 | Deployment | Vercel |
 
 **Prerequisites for running locally:**
 - Node.js installed
 - Anthropic API key (`ANTHROPIC_API_KEY` in `.env.local`)
 - GitHub personal access token (`GITHUB_TOKEN` in `.env.local`) — optional but increases rate limits
+- Resend API key (`RESEND_API_KEY` in `.env.local`) — for email delivery
 
 ---
 
@@ -44,8 +46,13 @@ app/
 components/
 ├── InputSection.tsx          ← URL / Paste tab switcher + input field
 ├── OutputSelector.tsx        ← checkboxes for 4 output types
-├── ResultsSection.tsx        ← tabbed output cards with copy buttons
+├── ResultsSection.tsx        ← tabbed output cards with copy/download buttons
+├── DeliverySection.tsx       ← email input + Send button, Download All button
 └── ThemeToggle.tsx           ← light/dark toggle in header
+
+app/api/
+├── generate/route.ts         ← GitHub fetching + Claude calls
+└── email/route.ts            ← Resend email delivery
 ```
 
 ### Data Flow
@@ -96,6 +103,11 @@ components/
 │  │  ...generated content...        │   │
 │  │                           [Copy]│   │  ← copy to clipboard
 │  └─────────────────────────────────┘   │
+│                                         │
+│  ┌─────────────────────────────────┐   │
+│  │  📧 your@email.com   [Send All] │   │  ← email delivery
+│  │  [⬇ Download All as .zip]       │   │  ← download all as zip
+│  └─────────────────────────────────┘   │
 └─────────────────────────────────────────┘
 ```
 
@@ -105,6 +117,10 @@ components/
 - Results tabs only render for selected outputs
 - Each tab has an independent **Copy** button
 - Tabs appear as each Claude call completes (not all at once)
+- After results appear, a delivery section shows below with two options:
+  - **Email:** user enters their address and hits Send — all selected outputs arrive as a single formatted email via Resend
+  - **Download:** one click downloads all selected outputs as a `.zip` containing individual `.md` / `.txt` files
+- Send button shows a spinner while email is in flight; shows a success checkmark on delivery
 - Default theme: clean & minimal (white bg, slate text, subtle borders)
 - Dark mode: full support via next-themes
 
@@ -136,6 +152,9 @@ One Claude call per selected output. Each uses a distinct persona and format con
 | Repo too large | Fetch only key files (capped at ~15k tokens); note in UI what was sampled |
 | Claude API error | Toast at top of page: *"Something went wrong. Try again."* |
 | Network error | Same toast pattern |
+| Invalid email address | Inline error under email field: *"Please enter a valid email address."* |
+| Email send failure | Toast: *"Couldn't send the email. Try downloading instead."* |
+| Email send success | Inline checkmark + *"Sent! Check your inbox."* |
 
 ---
 
@@ -145,8 +164,8 @@ One Claude call per selected output. Each uses a distinct persona and format con
 - Private repo support via OAuth
 - PDF / file upload as input
 - Custom prompt editing
-- Export to file (download button)
 - Demo video script output (can add in v2)
+- Per-tab individual file download (Download All covers this in v1)
 
 ---
 
@@ -154,6 +173,8 @@ One Claude call per selected output. Each uses a distinct persona and format con
 
 - A developer can paste a GitHub URL and get all four outputs in under 30 seconds
 - Copy buttons work reliably across browsers
+- Email delivery works end-to-end (Resend → inbox)
+- Download produces a valid .zip with correctly named files
 - App is deployed and publicly accessible on Vercel
 - Light and dark mode both look polished
 - Works on mobile (responsive layout)
