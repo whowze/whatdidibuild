@@ -15,7 +15,11 @@ Track ideas for enhancements, polish, and future features.
 - **Status:** Idea / In Progress / Done
 -->
 
-_No improvements logged yet._
+### Per-tweet copy buttons + "Tweet this" links in tweet thread output
+- **Added:** 2026-05-31
+- **Priority:** Medium
+- **Description:** The tweet thread output currently shows all 5 tweets in one block. Split them into individual cards, each with its own Copy button and a "Tweet this →" link that opens twitter.com/intent/tweet?text=... pre-filled. Makes it one-click to post each tweet instead of copy/paste/navigate.
+- **Status:** Idea
 
 ---
 
