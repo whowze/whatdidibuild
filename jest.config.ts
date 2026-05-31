@@ -12,4 +12,16 @@ const config: Config = {
   },
 }
 
-export default createJestConfig(config)
+// Wrap the nextJest config to override transformIgnorePatterns so that
+// @octokit (pure-ESM packages) get transpiled by Jest's Babel transform.
+const createConfig = createJestConfig(config)
+
+export default async (): Promise<Config> => {
+  const nextConfig = await createConfig()
+  return {
+    ...nextConfig,
+    transformIgnorePatterns: [
+      '/node_modules/(?!@octokit)/',
+    ],
+  }
+}
