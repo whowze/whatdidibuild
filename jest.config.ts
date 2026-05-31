@@ -20,6 +20,7 @@ export default async (): Promise<Config> => {
   const nextConfig = await createConfig()
   return {
     ...nextConfig,
+    // Extend this list if other pure-ESM packages are added
     transformIgnorePatterns: [
       '/node_modules/(?!@octokit)/',
     ],

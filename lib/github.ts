@@ -11,7 +11,7 @@ export interface ParsedRepo {
 }
 
 export function parseGitHubUrl(url: string): ParsedRepo | null {
-  const match = url.match(/github\.com\/([^/\s]+)\/([^/\s]+?)(?:\/|$)/)
+  const match = url.match(/(?:^|:\/\/)github\.com\/([^/\s?#]+)\/([^/\s?#]+?)(?:\.git)?(?:[/?#]|$)/)
   if (!match) return null
   return { owner: match[1], repo: match[2] }
 }
@@ -25,7 +25,7 @@ export async function fetchRepoContent(url: string): Promise<string> {
   if (!parsed) throw new Error('Invalid GitHub URL')
 
   const octokit = new Octokit({
-    auth: process.env.GITHUB_TOKEN || undefined,
+    auth: process.env.GITHUB_TOKEN,
   })
 
   const { owner, repo } = parsed
