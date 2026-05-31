@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <!-- Background -->
+  <rect width="240" height="240" rx="32" fill="#0f172a"/>
+
+  <!-- Code brackets -->
+  <text x="120" y="95" font-family="ui-monospace, monospace" font-size="48" font-weight="700" fill="#3b82f6" text-anchor="middle">&lt;/&gt;</text>
+
+  <!-- WIB text -->
+  <text x="120" y="148" font-family="ui-sans-serif, system-ui, sans-serif" font-size="28" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="4">WIB</text>
+
+  <!-- Tagline -->
+  <text x="120" y="178" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" font-weight="400" fill="#64748b" text-anchor="middle" letter-spacing="1">WHATDIDIBUILD</text>
+</svg>
