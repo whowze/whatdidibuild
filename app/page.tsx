@@ -108,6 +108,13 @@ export default function Home() {
           </>
         )}
       </div>
+
+      <footer className="border-t border-slate-200 dark:border-slate-800 mt-16 py-6 text-center text-sm text-slate-400 dark:text-slate-500">
+        © {new Date().getFullYear()} WhatDidIBuild &mdash;{' '}
+        <a href="mailto:forgehowze@gmail.com" className="hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+          forgehowze@gmail.com
+        </a>
+      </footer>
     </main>
   )
 }
